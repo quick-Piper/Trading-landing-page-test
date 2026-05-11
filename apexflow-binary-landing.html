@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ApexFlow Binary — Trade Smart. Live Free.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #060810;
+    --surface: #0C1018;
+    --card: #111720;
+    --card2: #161D2B;
+    --border: rgba(255,255,255,0.07);
+    --border-strong: rgba(255,255,255,0.14);
+    --gold: #D4A847;
+    --gold-dim: #9A7530;
+    --gold-glow: rgba(212,168,71,0.15);
+    --gold-text: #E8C06A;
+    --mint: #00D882;
+    --mint-dim: rgba(0,216,130,0.12);
+    --red: #FF4D5B;
+    --red-dim: rgba(255,77,91,0.12);
+    --text: #E4E9F0;
+    --text-muted: #6B7A90;
+    --text-dim: #3D4A5C;
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(212,168,71,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212,168,71,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 6%;
+    height: 70px;
+    background: rgba(6,8,16,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: var(--font-head);
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+  .logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--gold);
+    color: #0a0800;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 0.6rem 1.4rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-text); transform: translateY(-1px); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 6% 80px;
+    overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute;
+    top: -10%;
+    right: -5%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(212,168,71,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute;
+    bottom: -20%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(0,216,130,0.05) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 5rem;
+    align-items: center;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold-glow);
+    border: 1px solid rgba(212,168,71,0.25);
+    color: var(--gold-text);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.8rem;
+  }
+  .badge-dot {
+    width: 7px; height: 7px;
+    background: var(--mint);
+    border-radius: 50%;
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -2px;
+    color: #fff;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--gold);
+    position: relative;
+  }
+  .hero h1 em::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    border-radius: 2px;
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    line-height: 1.75;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--gold);
+    color: #0a0800;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.85rem 1.8rem;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .btn-primary:hover { background: var(--gold-text); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(212,168,71,0.25); }
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 1rem;
+    padding: 0.85rem 1.8rem;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid var(--border-strong);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .btn-ghost:hover { border-color: var(--gold-dim); color: var(--gold-text); }
+  .hero-trust {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .trust-item { display: flex; flex-direction: column; }
+  .trust-num {
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+    color: #fff;
+    font-weight: 700;
+  }
+  .trust-label { font-size: 0.8rem; color: var(--text-muted); }
+  .trust-divider { width: 1px; height: 36px; background: var(--border-strong); }
+
+  /* ── PHONE MOCKUP ── */
+  .phone-wrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  .phone-outer {
+    position: relative;
+    width: 270px;
+    background: var(--card);
+    border-radius: 42px;
+    padding: 14px;
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04) inset;
+    animation: float 5s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .phone-screen {
+    background: #0A0E18;
+    border-radius: 32px;
+    overflow: hidden;
+    padding: 20px 16px;
+    min-height: 520px;
+  }
+  .phone-notch {
+    width: 80px; height: 8px;
+    background: var(--card);
+    border-radius: 4px;
+    margin: 0 auto 20px;
+  }
+  .phone-header { margin-bottom: 16px; }
+  .phone-header p { font-size: 0.7rem; color: var(--text-muted); }
+  .phone-header h3 { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; color: #fff; }
+  .chart-area {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .chart-label { font-size: 0.65rem; color: var(--text-muted); margin-bottom: 4px; }
+  .chart-value { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; color: var(--mint); }
+  .chart-change { font-size: 0.65rem; color: var(--mint); }
+  .mini-chart { margin-top: 10px; }
+  .mini-chart svg { width: 100%; height: 60px; }
+  .trade-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    font-size: 0.72rem;
+  }
+  .trade-asset { color: #fff; font-weight: 500; }
+  .trade-dir-up {
+    background: var(--mint-dim);
+    color: var(--mint);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.65rem;
+  }
+  .trade-dir-down {
+    background: var(--red-dim);
+    color: var(--red);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.65rem;
+  }
+  .trade-pnl-up { color: var(--mint); font-family: var(--font-mono); font-size: 0.7rem; }
+  .trade-pnl-down { color: var(--red); font-family: var(--font-mono); font-size: 0.7rem; }
+  .phone-balance {
+    background: linear-gradient(135deg, rgba(212,168,71,0.18), rgba(212,168,71,0.05));
+    border: 1px solid rgba(212,168,71,0.2);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-top: 4px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .bal-label { font-size: 0.65rem; color: var(--gold-dim); }
+  .bal-value { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; color: var(--gold-text); }
+  .phone-badges {
+    position: absolute;
+    right: -30px;
+    top: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .float-badge {
+    background: var(--card2);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    animation: float-badge 4s ease-in-out infinite;
+  }
+  .float-badge:nth-child(2) { animation-delay: 2s; }
+  @keyframes float-badge {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+  }
+  .fb-amount { font-family: var(--font-mono); font-weight: 700; color: var(--mint); }
+  .fb-label { color: var(--text-muted); font-size: 0.68rem; }
+
+  /* ── TICKER ── */
+  .ticker-bar {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+  .ticker-track {
+    display: flex;
+    gap: 0;
+    animation: ticker 28s linear infinite;
+    width: max-content;
+  }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .tick-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 32px;
+    font-size: 0.8rem;
+    border-right: 1px solid var(--border);
+  }
+  .tick-name { color: var(--text-muted); font-family: var(--font-mono); }
+  .tick-price { color: #fff; font-family: var(--font-mono); }
+  .tick-up { color: var(--mint); font-size: 0.72rem; }
+  .tick-down { color: var(--red); font-size: 0.72rem; }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 1; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 6%; }
+  .section-pad { padding: 100px 0; }
+
+  .section-eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: var(--font-head);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 1.75;
+  }
+  .text-center { text-align: center; }
+  .text-center .section-sub { margin: 0 auto; }
+
+  /* ── HOW IT WORKS ── */
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    margin-top: 4rem;
+    background: var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .how-card {
+    background: var(--card);
+    padding: 2.5rem 2rem;
+    position: relative;
+    transition: background 0.3s;
+  }
+  .how-card:hover { background: var(--card2); }
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+  }
+  .step-icon {
+    width: 52px; height: 52px;
+    background: var(--gold-glow);
+    border: 1px solid rgba(212,168,71,0.2);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .how-card h3 {
+    font-family: var(--font-head);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.75rem;
+  }
+  .how-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
+  .how-connector {
+    position: absolute;
+    top: 50%; right: -1px;
+    width: 24px; height: 24px;
+    background: var(--gold);
+    border-radius: 50%;
+    transform: translateY(-50%) translateX(50%);
+    z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    color: #0a0800;
+    font-weight: 700;
+  }
+
+  /* ── WHY BINARY ── */
+  .why-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .feature-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+  .feature-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1.25rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: border-color 0.3s;
+  }
+  .feature-item:hover { border-color: var(--gold-dim); }
+  .feature-icon {
+    width: 38px; height: 38px; flex-shrink: 0;
+    background: var(--gold-glow);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+  .feature-item h4 { font-size: 0.95rem; font-weight: 500; color: #fff; margin-bottom: 0.2rem; }
+  .feature-item p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* Comparison table */
+  .compare-table {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 2.5rem;
+  }
+  .compare-head {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    background: var(--surface);
+    padding: 1rem 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    transition: background 0.2s;
+  }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-row:hover { background: rgba(255,255,255,0.02); }
+  .compare-row .label { color: var(--text-muted); font-size: 0.875rem; }
+  .cell-binary { color: var(--mint); font-weight: 500; }
+  .cell-forex { color: var(--text-muted); font-size: 0.85rem; }
+  .badge-winner {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,216,130,0.1);
+    border: 1px solid rgba(0,216,130,0.2);
+    color: var(--mint);
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin-left: 8px;
+  }
+
+  /* ── SERVICES ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+  .service-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .service-card:hover { border-color: var(--gold-dim); transform: translateY(-4px); }
+  .service-card:hover::before { opacity: 1; }
+  .service-card.featured {
+    grid-column: span 2;
+    background: linear-gradient(135deg, rgba(212,168,71,0.07), rgba(212,168,71,0.02));
+    border-color: rgba(212,168,71,0.2);
+  }
+  .service-card.featured::before { opacity: 1; }
+  .service-emoji { font-size: 2.2rem; margin-bottom: 1.2rem; display: block; }
+  .service-pill {
+    display: inline-block;
+    background: rgba(212,168,71,0.12);
+    color: var(--gold-text);
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+  }
+  .service-card h3 {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.75rem;
+  }
+  .service-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 1.5rem; }
+  .service-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .service-bullets li {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .service-bullets li::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .service-price {
+    margin-top: 1.8rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  .price-from { font-size: 0.8rem; color: var(--text-muted); }
+  .price-main {
+    font-family: var(--font-mono);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--gold-text);
+  }
+  .price-period { font-size: 0.8rem; color: var(--text-muted); }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-section { background: var(--surface); }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+  .testi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .testi-card:hover { border-color: var(--gold-dim); }
+  .stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 1rem; letter-spacing: 2px; }
+  .testi-text {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--gold-glow);
+    border: 1px solid rgba(212,168,71,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-head);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--gold-text);
+  }
+  .testi-name { font-size: 0.9rem; font-weight: 500; color: #fff; }
+  .testi-loc { font-size: 0.78rem; color: var(--text-muted); }
+  .testi-return {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    background: var(--mint-dim);
+    color: var(--mint);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
+  /* ── FAQ ── */
+  .faq-wrap { max-width: 800px; margin: 3.5rem auto 0; }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .faq-question {
+    width: 100%; background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 0;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff;
+    text-align: left;
+    gap: 1rem;
+    transition: color 0.2s;
+  }
+  .faq-question:hover { color: var(--gold-text); }
+  .faq-chevron {
+    width: 26px; height: 26px; flex-shrink: 0;
+    border-radius: 6px;
+    background: var(--card);
+    border: 1px solid var(--border-strong);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    transition: all 0.3s;
+  }
+  .faq-item.open .faq-chevron {
+    background: var(--gold-glow);
+    border-color: rgba(212,168,71,0.3);
+    color: var(--gold);
+    transform: rotate(180deg);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s;
+  }
+  .faq-item.open .faq-answer { max-height: 500px; }
+  .faq-answer-inner {
+    padding-bottom: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  .faq-answer-inner strong { color: var(--text); }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .cta-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 3rem;
+    padding: 80px 0;
+  }
+  .cta-inner h2 {
+    font-family: var(--font-head);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .cta-inner p { font-size: 1rem; color: var(--text-muted); margin-top: 0.75rem; max-width: 520px; }
+  .btn-whatsapp {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: #25D366;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.25s;
+    box-shadow: 0 8px 30px rgba(37,211,102,0.2);
+  }
+  .btn-whatsapp:hover { background: #22c55e; transform: translateY(-2px); box-shadow: 0 14px 40px rgba(37,211,102,0.3); }
+  .wa-icon { font-size: 1.3rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 60px 6% 30px;
+  }
+  .footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-brand p { font-size: 0.9rem; color: var(--text-muted); margin-top: 1rem; line-height: 1.7; }
+  .footer-col h4 {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+  }
+  .footer-col a {
+    display: block;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--text); }
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-bottom p { font-size: 0.8rem; color: var(--text-dim); }
+  .risk-warning {
+    background: rgba(255,77,91,0.05);
+    border: 1px solid rgba(255,77,91,0.15);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin-top: 1.5rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .risk-warning strong { color: rgba(255,77,91,0.7); }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .phone-wrap { display: none; }
+    .hero-trust { flex-wrap: wrap; gap: 1rem; }
+    .how-grid { grid-template-columns: 1fr; }
+    .how-connector { display: none; }
+    .why-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .service-card.featured { grid-column: span 1; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .cta-inner { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
+  @media (max-width: 600px) {
+    .section-pad { padding: 70px 0; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .compare-head, .compare-row { font-size: 0.78rem; padding: 0.8rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">Apex<span>Flow</span></div>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#why-binary">Why Binary</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Start Earning</a>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-bar" style="margin-top:70px;">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Live Account Management · Up to $10,000
+      </div>
+      <h1>Your Phone.<br>Your <em>Income</em>.<br>Your Freedom.</h1>
+      <p class="hero-sub">
+        We teach Nigerians how to trade binary options profitably — and for those who'd rather let the pros handle it, we manage accounts up to $10k. No 9-to-5. No gatekeeping.
+      </p>
+      <div class="hero-actions">
+        <a href="#cta" class="btn-primary">
+          <span>💬</span> Chat on WhatsApp
+        </a>
+        <a href="#how" class="btn-ghost">See How It Works →</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item">
+          <span class="trust-num">₦0</span>
+          <span class="trust-label">Hidden Fees</span>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-item">
+          <span class="trust-num">850+</span>
+          <span class="trust-label">Active Traders</span>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-item">
+          <span class="trust-num">$10k</span>
+          <span class="trust-label">Max Managed</span>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-item">
+          <span class="trust-num">3 yrs</span>
+          <span class="trust-label">In The Market</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHONE MOCKUP -->
+    <div class="phone-wrap">
+      <div class="phone-outer">
+        <div class="phone-screen">
+          <div class="phone-notch"></div>
+          <div class="phone-header">
+            <p>Good morning, Tunde 👋</p>
+            <h3>Portfolio Overview</h3>
+          </div>
+          <div class="chart-area">
+            <div class="chart-label">Today's P&L</div>
+            <div class="chart-value">+$342.80</div>
+            <div class="chart-change">▲ 12.4% today</div>
+            <div class="mini-chart">
+              <svg viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg" fill="none">
+                <defs>
+                  <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#00D882" stop-opacity="0.2"/>
+                    <stop offset="100%" stop-color="#00D882" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,50 C20,48 30,40 50,35 C70,30 80,42 100,28 C120,14 140,20 160,12 C180,4 200,8 220,5" stroke="#00D882" stroke-width="2" fill="none"/>
+                <path d="M0,50 C20,48 30,40 50,35 C70,30 80,42 100,28 C120,14 140,20 160,12 C180,4 200,8 220,5 L220,60 L0,60Z" fill="url(#cg)"/>
+              </svg>
+            </div>
+          </div>
+          <div class="trade-row">
+            <span class="trade-asset">EUR/USD</span>
+            <span class="trade-dir-up">CALL ↑</span>
+            <span class="trade-pnl-up">+$86</span>
+          </div>
+          <div class="trade-row">
+            <span class="trade-asset">BTC/USD</span>
+            <span class="trade-dir-up">CALL ↑</span>
+            <span class="trade-pnl-up">+$142</span>
+          </div>
+          <div class="trade-row">
+            <span class="trade-asset">GOLD</span>
+            <span class="trade-dir-down">PUT ↓</span>
+            <span class="trade-pnl-up">+$64</span>
+          </div>
+          <div class="phone-balance">
+            <div>
+              <div class="bal-label">Account Balance</div>
+              <div class="bal-value">$4,720.40</div>
+            </div>
+            <span style="font-size:1.2rem;">💰</span>
+          </div>
+        </div>
+      </div>
+      <div class="phone-badges">
+        <div class="float-badge">
+          <div class="fb-amount">+$86</div>
+          <div class="fb-label">EUR/USD WIN</div>
+        </div>
+        <div class="float-badge">
+          <div class="fb-amount">+$142</div>
+          <div class="fb-label">BTC WIN</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="section-pad">
+  <div class="container">
+    <div class="text-center reveal">
+      <span class="section-eyebrow">The Process</span>
+      <h2 class="section-title">From zero to profit.<br>Three steps.</h2>
+      <p class="section-sub">We've removed every excuse. Whether you're a complete beginner or you've tried trading before and got burnt — we got you.</p>
+    </div>
+    <div class="how-grid" style="margin-top:4rem;">
+      <div class="how-card reveal reveal-delay-1">
+        <div class="step-num">STEP 01</div>
+        <div class="step-icon">📲</div>
+        <h3>Reach Out & Register</h3>
+        <p>Slide into our WhatsApp, tell us where you're at — beginner, intermediate, or just want your money working for you — and we'll map out the right entry point.</p>
+        <div class="how-connector">→</div>
+      </div>
+      <div class="how-card reveal reveal-delay-2">
+        <div class="step-num">STEP 02</div>
+        <div class="step-icon">📚</div>
+        <h3>Learn or Let Us Trade</h3>
+        <p>Join our training programme and become a self-sufficient trader in weeks. Or fund a managed account from $100 and let our traders put your capital to work daily.</p>
+        <div class="how-connector">→</div>
+      </div>
+      <div class="how-card reveal reveal-delay-3">
+        <div class="step-num">STEP 03</div>
+        <div class="step-icon">💸</div>
+        <h3>Withdraw Your Profits</h3>
+        <p>Your returns hit your account weekly or monthly, depending on your plan. Withdraw to your Nigerian bank account, USDT, or Opay — whatever works for you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY BINARY -->
+<section id="why-binary" class="section-pad" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div class="why-inner">
+      <div class="reveal">
+        <span class="section-eyebrow">Why Binary Options</span>
+        <h2 class="section-title">Simpler wins.<br>Faster results.</h2>
+        <p class="section-sub">People argue about which market to enter. We've tried both. Here's the honest truth about why binary options work better for most Nigerians starting their trading journey.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon">🎯</div>
+            <div>
+              <h4>You only need to predict direction</h4>
+              <p>Up or down. That's it. No calculating pips, no worrying about stop-loss distances eating your margin. Binary options strip trading to its simplest form.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">⏱️</div>
+            <div>
+              <h4>Results in minutes, not days</h4>
+              <p>5-minute expiry. 15 minutes. One hour. You know exactly how much you're risking and what you'll win — before you even click. No overnight gaps, no swap fees.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">📱</div>
+            <div>
+              <h4>Built for your phone</h4>
+              <p>Apps like Quotex and Pocket Option are designed for mobile-first trading. No Bloomberg terminals, no multiple monitors — just your Android or iPhone and data.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">💵</div>
+            <div>
+              <h4>Start with as little as $10</h4>
+              <p>Forex requires serious capital to make meaningful returns. Binary platforms let you start small, learn fast, and scale without pressure.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-1">
+        <span class="section-eyebrow">Binary vs Forex</span>
+        <h3 style="font-family:var(--font-head); font-size:1.4rem; font-weight:700; color:#fff; margin: 0.5rem 0 0.5rem; letter-spacing:-0.5px;">Side-by-side comparison</h3>
+        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0;">For Nigerians trading from their phones.</p>
+        <div class="compare-table">
+          <div class="compare-head">
+            <span>Feature</span>
+            <span>Binary Options <span class="badge-winner">✓ Better</span></span>
+            <span>Forex</span>
+          </div>
+          <div class="compare-row">
+            <span class="label">Minimum Start</span>
+            <span class="cell-binary">From $10</span>
+            <span class="cell-forex">$200–$500+</span>
+          </div>
+          <div class="compare-row">
+            <span class="label">Risk Per Trade</span>
+            <span class="cell-binary">Fixed & known upfront</span>
+            <span class="cell-forex">Variable (margin risk)</span>
+          </div>
+          <div class="compare-row">
+            <span class="label">Learning Curve</span>
+            <span class="cell-binary">1–3 weeks to basics</span>
+            <span class="cell-forex">3–12 months</span>
+          </div>
+          <div class="compare-row">
+            <span class="label">Trade Duration</span>
+            <span class="cell-binary">1 min – 4 hrs</span>
+            <span class="cell-forex">Hours to weeks</span>
+          </div>
+          <div class="compare-row">
+            <span class="label">Phone Trading</span>
+            <span class="cell-binary">Fully optimized</span>
+            <span class="cell-forex">Limited on mobile</span>
+          </div>
+          <div class="compare-row">
+            <span class="label">Profit Potential</span>
+            <span class="cell-binary">Up to 95% per trade</span>
+            <span class="cell-forex">Depends on lot size</span>
+          </div>
+          <div class="compare-row">
+            <span class="label">Stop-Loss Needed?</span>
+            <span class="cell-binary">No — baked in</span>
+            <span class="cell-forex">Yes — critical</span>
+          </div>
+          <div class="compare-row">
+            <span class="label">Swap/Overnight Fee</span>
+            <span class="cell-binary">None</span>
+            <span class="cell-forex">Daily swap charges</span>
+          </div>
+        </div>
+        <p style="font-size:0.78rem; color:var(--text-dim); margin-top:1rem;">Binary options are not risk-free. They require discipline, strategy, and proper education — which is exactly what we provide.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section-pad">
+  <div class="container">
+    <div class="text-center reveal">
+      <span class="section-eyebrow">What We Offer</span>
+      <h2 class="section-title">Pick your path.</h2>
+      <p class="section-sub">Two ways to benefit from the binary market. One for those who want to learn the craft. One for those who just want results.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal reveal-delay-1">
+        <span class="service-emoji">🎓</span>
+        <div class="service-pill">EDUCATION</div>
+        <h3>Trading Masterclass</h3>
+        <p>A practical, hands-on programme that takes you from zero to consistent. No theory dumps. We teach you what actually works in the Nigerian market — live trades, real feedback, WhatsApp support group.</p>
+        <ul class="service-bullets">
+          <li>4-week structured curriculum with live sessions</li>
+          <li>Technical analysis made simple (in plain English)</li>
+          <li>Risk management that keeps you in the game</li>
+          <li>Private signal group access during training</li>
+          <li>Platform setup — Quotex, Pocket Option</li>
+          <li>Lifetime access to course recordings</li>
+        </ul>
+        <div class="service-price">
+          <span class="price-from">From</span>
+          <span class="price-main">₦35,000</span>
+          <span class="price-period">one-time</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-emoji">🤝</span>
+        <div class="service-pill">MANAGED ACCOUNT</div>
+        <h3>Let Us Trade For You</h3>
+        <p>Deposit your capital, we handle the trades, you collect your share. No charts to read. No stress. Just transparent weekly reporting and clean profit splits on all returns.</p>
+        <ul class="service-bullets">
+          <li>Minimum: $100 · Maximum: $10,000</li>
+          <li>Weekly profit-sharing — 60% yours, 40% ours</li>
+          <li>Transparent reporting via WhatsApp</li>
+          <li>Withdraw anytime with 48hr processing</li>
+          <li>Capital secured on licensed platforms</li>
+          <li>No upfront management fees</li>
+        </ul>
+        <div class="service-price">
+          <span class="price-from">Start with</span>
+          <span class="price-main">$100</span>
+          <span class="price-period">— no upfront fee</span>
+        </div>
+      </div>
+
+      <div class="service-card featured reveal">
+        <span class="service-emoji">⚡</span>
+        <div class="service-pill">BUNDLE — MOST POPULAR</div>
+        <h3>Learn & Earn Together</h3>
+        <p>The smartest move — enrol in the masterclass while we run your account in parallel. You're building skills and earning at the same time. By the time you graduate, you already have a live track record and you understand every trade that was made. No dependency. Total control.</p>
+        <ul class="service-bullets">
+          <li>Everything in the Masterclass + Managed Account</li>
+          <li>Discounted bundle pricing</li>
+          <li>Priority WhatsApp support access</li>
+          <li>Monthly 1-on-1 review call</li>
+          <li>Gradually transition to self-trading when ready</li>
+        </ul>
+        <div class="service-price">
+          <span class="price-from">Bundle from</span>
+          <span class="price-main">₦50,000</span>
+          <span class="price-period">+ $100 capital</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section section-pad" style="border-top: 1px solid var(--border);">
+  <div class="container">
+    <div class="text-center reveal">
+      <span class="section-eyebrow">Real Results</span>
+      <h2 class="section-title">People just like you.</h2>
+      <p class="section-sub">Not models. Not stock photos. Real people across Nigeria who decided to stop watching from the sidelines.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="testi-return">+18% ROI</div>
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"I was sceptical at first — I'd been scammed twice before. But these guys walked me through everything. Three months in, I've made back my training fee ten times over trading on my lunch break."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">AO</div>
+          <div>
+            <div class="testi-name">Adaeze Okonkwo</div>
+            <div class="testi-loc">Enugu · Nurse · Managed + Self-trade</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="testi-return">+$620 / mo</div>
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"I put in $500 for managed trading in August. They've been consistent — I withdraw my returns every month like salary. My colleagues keep asking what I'm doing differently. I just smile."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">TF</div>
+          <div>
+            <div class="testi-name">Tunde Fashola</div>
+            <div class="testi-loc">Lagos · Civil Servant · Managed Account</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-3">
+        <div class="testi-return">Full-time trader</div>
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">"After the masterclass, everything clicked. Chart patterns, time sessions, money management. Six months later I quit my marketing job. I now trade 2 hours in the morning and spend the rest of the day with my family."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">CI</div>
+          <div>
+            <div class="testi-name">Chidinma Ihejirika</div>
+            <div class="testi-loc">Abuja · Ex-Marketing Exec · Masterclass</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section-pad" style="border-top: 1px solid var(--border);">
+  <div class="container">
+    <div class="text-center reveal">
+      <span class="section-eyebrow">FAQ</span>
+      <h2 class="section-title">Your questions,<br>straight answers.</h2>
+      <p class="section-sub">No fluff. No overselling. If you've got a question that's not here, send us a message — we'll respond same day.</p>
+    </div>
+    <div class="faq-wrap">
+
+      <div class="faq-item reveal">
+        <button class="faq-question">
+          Is this a Ponzi scheme or some kind of investment scam?
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            We get why you're asking — this country has burned too many people with "investment opportunities." <strong>ApexFlow is not an investment scheme.</strong> We are either (a) teaching you to trade on platforms you own and control yourself, or (b) actively trading your account on a licensed brokerage — where your money stays in YOUR account, not ours. You can log in, verify your balance, and withdraw anytime. We earn from our cut of the profits — if we don't perform, we don't earn. Period.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question">
+          Why binary options and not forex, stocks, or crypto?
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            All four can make you money — but they're not equal for a Nigerian with a phone and limited capital. <strong>Forex</strong> requires you to understand leverage, pip calculations, margin calls, and swap fees. One emotional decision can blow your account. It also demands serious capital to make meaningful returns. <strong>Stocks</strong> are slow — you're thinking months or years. <strong>Crypto</strong> is volatile and harder to time. Binary options, by contrast, are structurally simple: you predict direction, set a fixed risk, and you know your outcome in minutes. The platforms are mobile-optimised. You can trade EUR/USD, BTC, Gold, oil — all from the same app. And with proper risk management (which we teach), your downside is always controlled. It's not that binary is "better" in some abstract sense — it's that it fits the average Nigerian's situation better at the starting point.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question">
+          How much can I realistically make per month?
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Managed accounts have returned between <strong>12–22% monthly</strong> consistently for our clients over the past 12 months — but past performance isn't a guarantee. For self-traders completing our masterclass, results vary based on discipline, capital, and consistency. Some make ₦30k–₦100k extra per month part-time. Others scale to full-time income within 6–12 months. We'll never promise you a specific figure — anyone who does that in trading is lying to you. What we do promise is teaching you the system that makes those numbers possible, and transparent reporting on every managed trade.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question">
+          What happens if I lose money in a managed account?
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Trading involves real risk — we will never pretend otherwise. <strong>We apply strict risk management on every managed account</strong> — typically risking no more than 2–5% per trade and setting weekly drawdown limits. If we hit a losing week (it happens in any legitimate trading operation), we don't take our commission — we only earn when you earn. Your capital remains in your own brokerage account at all times. We don't hold your money. This means if you ever become uncomfortable, you can withdraw everything yourself without asking us.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question">
+          Which platforms do you use? Are they legit?
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            We primarily use <strong>Quotex</strong> and <strong>Pocket Option</strong> — two of the most widely used binary options brokers globally, with fast withdrawals and solid mobile apps. Both support Nigerian payment methods and have active user communities across Africa. We'll walk you through the signup and verification process during onboarding, and show you how to fund and withdraw step by step. We only work on platforms we've personally tested and withdrawn from ourselves.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question">
+          I have no trading experience at all. Can I still join?
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Absolutely — in fact, most of our best students started from zero. <strong>Starting fresh is often an advantage</strong> because you don't have bad habits to unlearn. Our masterclass begins with the fundamentals: what a candle is, what support and resistance means, how to read momentum — all explained in simple terms. By week two, you're placing demo trades. By week four, many students are live. If you want the managed option while you learn, that's also available from day one.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question">
+          How do I withdraw my profits? How fast?
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            For <strong>managed accounts</strong>, profits are calculated weekly and you can request withdrawal anytime — typically processed within 24–48 hours to your preferred method (Nigerian bank account, Opay, PalmPay, or USDT). For <strong>self-traders</strong>, you withdraw directly from the broker platform yourself — no need to go through us at all. Quotex and Pocket Option both support fast withdrawals for Nigerian users.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-question">
+          Do I need a laptop or desktop computer?
+          <div class="faq-chevron">▾</div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <strong>No.</strong> Everything — the masterclass, the trading platforms, the WhatsApp support group — runs perfectly on your phone. We specifically chose platforms and delivery methods that work on Android and iPhone with a standard data connection. If you have a laptop, great — it won't hurt. But it's never been a requirement for any of our students.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="cta-section">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="reveal">
+        <h2>The market doesn't wait.<br>Neither should you.</h2>
+        <p>Every week you delay is money someone else is making. Slide into our DMs right now — consultation is free, and we'll tell you exactly which option is right for your situation. No pressure. No script.</p>
+      </div>
+      <div class="reveal reveal-delay-1" style="display:flex; flex-direction:column; gap:1rem; align-items:flex-start;">
+        <a href="https://wa.me/2348100000000?text=Hi%20ApexFlow%2C%20I%20want%20to%20learn%20more%20about%20trading%20binary%20options" class="btn-whatsapp" target="_blank" rel="noopener">
+          <span class="wa-icon">💬</span> Message Us on WhatsApp
+        </a>
+        <p style="font-size:0.8rem; color:var(--text-dim); margin:0;">Typically replies within 2 hours · Mon–Sat, 8am–10pm</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">Apex<span>Flow</span> Binary</div>
+      <p>We're a Nigerian-founded trading education and account management firm helping everyday people take control of their financial future through binary options trading.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <a href="#how">How It Works</a>
+      <a href="#why-binary">Why Binary</a>
+      <a href="#services">Services</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <a href="#services">Trading Masterclass</a>
+      <a href="#services">Managed Accounts</a>
+      <a href="#services">Bundle Package</a>
+      <a href="#cta">Free Consultation</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="https://wa.me/2348100000000" target="_blank">WhatsApp Us</a>
+      <a href="#">Telegram Channel</a>
+      <a href="#">Instagram</a>
+      <a href="#">Email Us</a>
+    </div>
+  </div>
+  <div class="risk-warning">
+    <strong>Risk Warning:</strong> Binary options trading involves significant risk of loss. Past performance is not indicative of future results. Do not trade with money you cannot afford to lose. ApexFlow provides education and account management services — we do not guarantee profits. All trading is done on third-party, licensed broker platforms. Please trade responsibly.
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 ApexFlow Binary. All rights reserved. Made in Nigeria 🇳🇬</p>
+    <p>Trading involves risk. Capital at risk.</p>
+  </div>
+</footer>
+
+<script>
+  // TICKER
+  const tickers = [
+    { name:'EUR/USD', price:'1.08742', change:'+0.12%', up:true },
+    { name:'GBP/USD', price:'1.26431', change:'+0.08%', up:true },
+    { name:'BTC/USD', price:'67,840', change:'+2.41%', up:true },
+    { name:'GOLD', price:'2,314.50', change:'-0.18%', up:false },
+    { name:'USD/JPY', price:'155.32', change:'+0.22%', up:true },
+    { name:'ETH/USD', price:'3,520.10', change:'+3.14%', up:true },
+    { name:'OIL/USD', price:'78.64', change:'-0.54%', up:false },
+    { name:'USD/NGN', price:'1,580', change:'+0.05%', up:true },
+    { name:'AUD/USD', price:'0.6541', change:'-0.11%', up:false },
+    { name:'NASDAQ', price:'18,432', change:'+0.67%', up:true },
+  ];
+
+  function buildTicker() {
+    const track = document.getElementById('ticker');
+    const doubled = [...tickers, ...tickers];
+    track.innerHTML = doubled.map(t => `
+      <div class="tick-item">
+        <span class="tick-name">${t.name}</span>
+        <span class="tick-price">${t.price}</span>
+        <span class="${t.up ? 'tick-up' : 'tick-down'}">${t.change}</span>
+      </div>
+    `).join('');
+  }
+  buildTicker();
+
+  // SCROLL REVEALS
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => obs.observe(el));
+
+  // FAQ ACCORDION
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ANIMATED COUNTER
+  function animateCounter(el, target, prefix='', suffix='') {
+    const duration = 2000;
+    const start = performance.now();
+    const update = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      const val = Math.floor(ease * target);
+      el.textContent = prefix + val.toLocaleString() + suffix;
+      if (t < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  // Simple live price simulation
+  function jitter(base, pct) {
+    return (base * (1 + (Math.random() - 0.5) * pct)).toFixed(base > 100 ? 0 : 5);
+  }
+</script>
+</body>
+</html>
